@@ -1,0 +1,24 @@
+name: 'Keihiseisan FE'
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup sonarqube
+      uses: warchant/setup-sonar-scanner@v3
+    - name: run sonarqube
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: sonar-scanner
+           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+           -Dsonar.organization=1corp
+           -Dsonar.host.url=https://sonar.dev.hblab.vn/
+           -Dsonar.projectKey=Keihiseisan_FE
